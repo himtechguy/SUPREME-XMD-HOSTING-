@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b14">
+  <title>SUPREME XMD HOSTING</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">SX</div>
+        <div>
+          <h2>SUPREME XMD</h2>
+          <span>HOSTING PANEL</span>
+        </div>
+      </div>
+
+      <nav>
+        <a class="nav-link active" href="#dashboard">▦ Dashboard</a>
+        <a class="nav-link" href="#deployment">⌘ Deployment</a>
+        <a class="nav-link" href="#whatsapp">◉ WhatsApp</a>
+        <a class="nav-link" href="#logs">≡ Console Logs</a>
+        <a class="nav-link" href="#settings">⚙ Settings</a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <span class="status-dot"></span>
+        Platform interface
+        <small>SUPREME XMD v1.0</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">CONTROL CENTER</span>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="user-chip">
+          <div class="avatar">S</div>
+          <span>Administrator</span>
+        </div>
+      </header>
+
+      <section class="welcome">
+        <div>
+          <span class="eyebrow">WELCOME BACK</span>
+          <h2>Your bot. Your control.</h2>
+          <p>Manage your SUPREME XMD hosting environment from one place.</p>
+        </div>
+        <div class="welcome-mark">SX</div>
+      </section>
+
+      <section class="section" id="dashboard">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">SYSTEM OVERVIEW</span>
+            <h2>Live status</h2>
+          </div>
+          <span class="live-label"><i></i> SERVER CHECK</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-icon">⌁</span>
+            <p>Platform server</p>
+            <h3 id="serverStatus">Checking...</h3>
+            <small>Dashboard backend</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">◉</span>
+            <p>WhatsApp bot</p>
+            <h3 id="botStatus">Not connected</h3>
+            <small>Bot integration</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">◷</span>
+            <p>Server uptime</p>
+            <h3 id="uptime">--</h3>
+            <small>Time since server started</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon">⌘</span>
+            <p>Deployment</p>
+            <h3 id="deployStatus">Not configured</h3>
+            <small>Hosting provider</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="section two-column" id="deployment">
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">GITHUB INTEGRATION</span>
+              <h2>Deploy your bot</h2>
+            </div>
+            <span class="panel-icon">⌘</span>
+          </div>
+          <p>Connect your GitHub repository to prepare your bot for deployment.</p>
+          <div class="input-group">
+            <label for="repoUrl">Repository URL</label>
+            <input id="repoUrl" type="url" placeholder="https://github.com/username/repository">
+          </div>
+          <button class="primary-button" id="connectGithub" type="button">
+            GitHub integration coming soon
+          </button>
+          <small class="hint">Deployment controls will activate after secure provider setup.</small>
+        </article>
+
+        <article class="panel" id="whatsapp">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">WHATSAPP CONNECTION</span>
+              <h2>Session manager</h2>
+            </div>
+            <span class="panel-icon">◉</span>
+          </div>
+          <p>Pair your WhatsApp account and manage its secure session.</p>
+          <div class="session-box">
+            <span>SESSION STATUS</span>
+            <strong id="sessionStatus">Not connected</strong>
+          </div>
+          <button class="secondary-button" type="button" disabled>
+            Pair WhatsApp — coming soon
+          </button>
+          <small class="hint">Your private WhatsApp credentials will never be displayed here.</small>
+        </article>
+      </section>
+
+      <section class="section" id="logs">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">ACTIVITY</span>
+            <h2>System console</h2>
+          </div>
+          <span class="console-tag">LIVE API</span>
+        </div>
+        <div class="console" id="console">
+          <p><span class="console-time">[SYSTEM]</span> Dashboard interface loaded.</p>
+          <p><span class="console-time">[INFO]</span> Waiting for server health check...</p>
+        </div>
+      </section>
+
+      <section class="section" id="settings">
+        <div class="panel settings-panel">
+          <div>
+            <span class="eyebrow">PANEL INFORMATION</span>
+            <h2>Platform settings</h2>
+            <p>Secure administration and account settings will be added in a later stage.</p>
+          </div>
+          <span class="version">VERSION 1.0.0</span>
+        </div>
+      </section>
+
+      <footer>
+        <span>SUPREME XMD HOSTING</span>
+        <span>Built for control. Designed for performance.</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
