@@ -1,0 +1,19 @@
+
+{
+  "name": "supreme-xmd",
+  "version": "1.0.0",
+  "description": "SUPREME XMD WhatsApp Bot",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.18",
+    "axios": "^1.7.9",
+    "chalk": "^4.1.2",
+    "express": "^4.21.2",
+    "moment-timezone": "^0.5.47",
+    "pino": "^9.6.0"
+  }
+}
