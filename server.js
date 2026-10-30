@@ -11,6 +11,7 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const startedAt = Date.now();
+const publicDir = path.join(__dirname, "public");
 
 if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
@@ -30,29 +31,30 @@ const loginLimiter = rateLimit({
   }
 });
 
-app.use(
-  session({
-    name: "supreme.sid",
-    secret: process.env.SESSION_SECRET || "development-only-secret-change-me",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 12
-    }
-  })
-);
+app.use(session({
+  name: "supreme.sid",
+  secret: process.env.SESSION_SECRET || "development-only-secret-change-me",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 1000 * 60 * 60 * 12
+  }
+}));
 
 // Admin login
 app.post("/api/auth/login", loginLimiter, async (req, res) => {
   try {
     const { username, password } = req.body || {};
 
-    if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD_HASH ||
-        !process.env.SESSION_SECRET ||
-        process.env.SESSION_SECRET === "development-only-secret-change-me") {
+    if (
+      !process.env.ADMIN_USERNAME ||
+      !process.env.ADMIN_PASSWORD_HASH ||
+      !process.env.SESSION_SECRET ||
+      process.env.SESSION_SECRET === "development-only-secret-change-me"
+    ) {
       return res.status(503).json({
         success: false,
         message: "Admin security is not configured."
@@ -145,7 +147,7 @@ app.post("/api/auth/logout", (req, res) => {
   });
 });
 
-// Protect future admin-only API routes with this middleware
+// Admin protection middleware
 function requireAdmin(req, res, next) {
   if (req.session.isAdmin !== true) {
     return res.status(401).json({
@@ -157,7 +159,7 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// Example protected endpoint
+// Example protected admin endpoint
 app.get("/api/admin/check", requireAdmin, (req, res) => {
   res.json({
     success: true,
@@ -165,7 +167,7 @@ app.get("/api/admin/check", requireAdmin, (req, res) => {
   });
 });
 
-// Server health
+// Public health endpoint
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -179,7 +181,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Platform overview
+// Public platform overview
 app.get("/api/overview", (req, res) => {
   res.json({
     success: true,
@@ -200,12 +202,39 @@ app.get("/api", (req, res) => {
   });
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+// Login page
+app.get("/login", (req, res) => {
+  if (req.session.isAdmin === true) {
+    return res.redirect("/");
+  }
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(publicDir, "login.html"));
 });
 
+// Dashboard protection
+app.get("/", (req, res) => {
+  if (req.session.isAdmin !== true) {
+    return res.redirect("/login");
+  }
+
+  res.sendFile(path.join(publicDir, "index.html"));
+});
+
+// Dashboard assets
+app.get("/style.css", requireAdmin, (req, res) => {
+  res.sendFile(path.join(publicDir, "style.css"));
+});
+
+app.get("/app.js", requireAdmin, (req, res) => {
+  res.sendFile(path.join(publicDir, "app.js"));
+});
+
+// Unknown routes
+app.use((req, res) => {
+  res.status(404).send("Page not found.");
+});
+
+// Error handler
 app.use((err, req, res, next) => {
   console.error("Server error:", err.message);
   res.status(500).json({
@@ -220,3 +249,4 @@ app.listen(PORT, "0.0.0.0", () => {
   console.log(` Server running on port ${PORT}`);
   console.log("================================");
 });
+
